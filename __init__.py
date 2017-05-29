@@ -1,0 +1,1 @@
+from Pokedex import *
