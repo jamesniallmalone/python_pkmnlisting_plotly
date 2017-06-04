@@ -15,12 +15,10 @@ class Pokedex:
 		self.__pokedexname = name
 
 		#RBY, GSC, RSE, DPP, HGSS, BW, XY, ORAS, SM
-		pokemon_in_dex = self.__list_withconditions(jsondata, name, True) #list(element for element in jsondata if element[name] == True)
+		pokemon_in_dex = self.__list_withconditions(jsondata, name, True)
 		
-		#gen = (element for element in jsondata if element[name] == True)
-		
-		standardgen = self.__list_withconditions(pokemon_in_dex, 'Legendary', 0) # list(element for element in pokemon_in_dex if element["Legendary"] == 0)
-		standardshiny = self.__list_withconditions_b(pokemon_in_dex, 'Game') #list(element for element in pokemon_in_dex if element["Game"])
+		standardgen = self.__list_withconditions(pokemon_in_dex, 'Legendary', 0)
+		standardshiny = self.__list_withconditions_b(pokemon_in_dex, 'Game')
 		
 		self.__standardindex = len(standardgen)
 		
@@ -52,3 +50,18 @@ class Pokedex:
 		))
 		
 		print("{0}\n".format(self.__exampledict))
+		
+		
+		
+	def print_details_to_file(self):
+		filename = open("{0}dex.txt".format(self.__pokedexname), "w")
+		
+		
+		
+		filename.write("{0} dex. \nTotal standard: {1}. Total shiny standard: {2}. Percentage: {3}\n".format(
+			self.__pokedexname, self.get_totalindex(), self.get_shinydex(), 
+			self.get_percentage(self.get_shinydex(), self.get_totalindex())
+		))
+		
+		filename.write("{0}\n".format(self.__exampledict))
+		filename.close()
