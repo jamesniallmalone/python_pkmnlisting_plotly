@@ -2,6 +2,7 @@ import json
 from pprint import pprint
 
 from Pokedex import *
+from Generation import *
 
 
 
@@ -27,3 +28,6 @@ Pokedex('Melemele Alola', listdata).print_details_to_file()
 Pokedex('Akala Alola', listdata).print_details_to_file()
 Pokedex('Ulaula Alola', listdata).print_details_to_file()
 Pokedex('Poni Alola', listdata).print_details_to_file()
+
+for i in range(1, 8):
+	Generation(i, listdata).print_details_to_file()

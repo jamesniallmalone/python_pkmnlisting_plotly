@@ -14,7 +14,7 @@ class Pokedex:
 	def __init__(self, name, jsondata):
 		self.__pokedexname = name
 
-		#RBY, GSC, RSE, DPP, HGSS, BW, XY, ORAS, SM
+		#RBY, GSC, FRLG, RSE, DPP, HGSS, BW, XY, ORAS, SM
 		pokemon_in_dex = self.__list_withconditions(jsondata, name, True)
 		
 		standardgen = self.__list_withconditions(pokemon_in_dex, 'Legendary', 0)
@@ -27,6 +27,7 @@ class Pokedex:
 		self.__dictionary_of_pokedexbreakdown("RBY", standardshiny)
 		self.__dictionary_of_pokedexbreakdown("GSC", standardshiny)
 		self.__dictionary_of_pokedexbreakdown("RSE", standardshiny)
+		self.__dictionary_of_pokedexbreakdown("FRLG", standardshiny)
 		self.__dictionary_of_pokedexbreakdown("DPP", standardshiny)
 		self.__dictionary_of_pokedexbreakdown("HGSS", standardshiny)
 		self.__dictionary_of_pokedexbreakdown("BW", standardshiny)
