@@ -1,4 +1,5 @@
 import json
+import os
 
 class Pokedex:
 	
@@ -14,7 +15,7 @@ class Pokedex:
 	def __init__(self, name, jsondata):
 		self.__pokedexname = name
 
-		#RBY, GSC, FRLG, RSE, DPP, HGSS, BW, XY, ORAS, SM
+		#RBY, GSC, FRLG, RSE, DPP, HGSS, BW, XY, ORAS, SM, USUM
 		pokemon_in_dex = self.__list_withconditions(jsondata, name, True)
 		
 		standardgen = self.__list_withconditions(pokemon_in_dex, 'Legendary', 0)
@@ -34,6 +35,7 @@ class Pokedex:
 		self.__dictionary_of_pokedexbreakdown("XY", standardshiny)
 		self.__dictionary_of_pokedexbreakdown("ORAS", standardshiny)
 		self.__dictionary_of_pokedexbreakdown("SM", standardshiny)
+		self.__dictionary_of_pokedexbreakdown("USUM", standardshiny)
 		
 	def get_totalindex(self):
 		return self.__standardindex
@@ -55,6 +57,19 @@ class Pokedex:
 		
 		
 	def print_details_to_file(self):
+		print("{0}\n".format(os.getcwd()))
+		
+		directory = os.getcwd() +  "/GeneratedFile"
+		print("{0}".format(directory))
+		if not os.path.exists(directory):
+			os.mkdir(directory)
+		os.chdir(os.getcwd() + "/GeneratedFile")
+		
+		directory = os.getcwd() +"/Pokedex"
+		if not os.path.exists(directory):
+			os.mkdir(directory)
+		os.chdir("Pokedex")
+			
 		filename = open("{0}dex.txt".format(self.__pokedexname), "w")
 		
 		
@@ -66,3 +81,5 @@ class Pokedex:
 		
 		filename.write("{0}\n".format(self.__exampledict))
 		filename.close()
+		
+		os.chdir("../../")
