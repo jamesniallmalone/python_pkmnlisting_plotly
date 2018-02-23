@@ -1,4 +1,5 @@
 import json
+import os
 
 class Generation1:
 	def __init__(self):
@@ -45,8 +46,8 @@ class Generation6:
 class Generation7:
 	def __init__(self):
 		self.gen = 7
-		self.term = ["SM"]
-		self.uppercount = 801
+		self.term = ["SM", "USUM"]
+		self.uppercount = 806
 		self.lowercount = 721
 
 class Generation:
@@ -66,6 +67,10 @@ class Generation:
 										element["ShinyLocked"] == 0 and
 										element["Legendary"] == 1))
 		
+		self.__ubgencount =len(list(element for element in listpoke if 
+											genobj.lowercount <= element["DexNo"] <= genobj.uppercount and 
+										element["Legendary"] == 3))
+		
 		self.__exampledict[name] = len(list(element for element in listpoke if 
 											element["Game"] in instance.term and 
 											genobj.lowercount <= element["DexNo"] <= genobj.uppercount and
@@ -75,6 +80,11 @@ class Generation:
 											element["Game"] in instance.term and 
 											genobj.lowercount <= element["DexNo"] <= genobj.uppercount and
 										    element["Legendary"] == 1))
+		
+		self.__ubdict[name] = len(list(element for element in listpoke if 
+											element["Game"] in instance.term and 
+											genobj.lowercount <= element["DexNo"] <= genobj.uppercount and
+										    element["Legendary"] == 3))
 		
 	def get_percentage(self, part, whole):
 		return "{:0.2f}".format(100 * float(part) / float (whole))
@@ -104,6 +114,7 @@ class Generation:
 
 		self.__exampledict = {}
 		self.__legendarydict = {}
+		self.__ubdict = {}
 		
 		genunderinvestigation = self.select_gen(gennum)
 		
@@ -115,9 +126,21 @@ class Generation:
 		
 		
 	def print_details_to_file(self):
+		
+		directory = os.getcwd() +  "/GeneratedFile"
+		print("{0}".format(directory))
+		if not os.path.exists(directory):
+			os.mkdir(directory)
+		os.chdir(os.getcwd() + "/GeneratedFile")
+		
+		directory = os.getcwd() +"/Generation"
+		if not os.path.exists(directory):
+			os.mkdir(directory)
+		os.chdir("Generation")
+		
 		filename = open("Generation{0}.txt".format(self.__gen_num), "w")
 		
-		
+		#########
 		filename.write("Generation{0}. \nStandard Total: {1}. Total shiny: {2}. Percentage: {3}\n".format(
 			self.__gen_num, self.__standardgencount, sum(self.__exampledict.values()), 
 			self.get_percentage(sum(self.__exampledict.values()), self.__standardgencount)
@@ -125,9 +148,25 @@ class Generation:
 		
 		filename.write("{0}\n".format(self.__exampledict))
 		
+		#########
 		filename.write("Generation{0}. \nLegendary Total: {1}. Total shiny: {2}. Percentage: {3}\n".format(
 			self.__gen_num, self.__legendgencount, sum(self.__legendarydict.values()), 
 			self.get_percentage(sum(self.__legendarydict.values()), self.__legendgencount)
 		))
 		filename.write("{0}\n".format(self.__legendarydict))
+		
+		#########
+		print("Generation{0}: {1}".format(self.__gen_num, self.__ubgencount))
+		if self.__ubgencount > 0:
+			filename.write("Generation{0}. \nUB Total: {1}. Total shiny: {2}. Percentage: {3}\n".format(
+				self.__gen_num, self.__ubgencount, sum(self.__ubdict.values()), 
+				self.get_percentage(sum(self.__ubdict.values()), self.__ubgencount)
+			))
+			
+			filename.write("{0}\n".format(self.__ubdict))
+		
+		#########
+		
 		filename.close()
+		
+		os.chdir("../../")
